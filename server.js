@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const db = require('./db');
+const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express();
@@ -10,7 +11,7 @@ const API_token = process.env.API_Token;
 
 const auth = (req, res, next) => {
 	if (!req.get('Authorization')) {
-		return res.json('Missing credentcails');
+		return res.json('Missing credentials');
 	}
 
 	const key = req.get('Authorization').split(' ')[1];
@@ -25,6 +26,7 @@ const auth = (req, res, next) => {
 //Middlewares
 app.use(cors());
 app.use(auth);
+app.use(helmet());
 app.use(morgan('common'));
 
 //Routes
