@@ -11,13 +11,13 @@ const API_token = process.env.API_Token;
 
 const auth = (req, res, next) => {
 	if (!req.get('Authorization')) {
-		return res.json('Missing credentials');
+		return res.status(401).json('Missing credentials');
 	}
 
 	const key = req.get('Authorization').split(' ')[1];
 
 	if (!(key === API_token)) {
-		return res.json('Invalid token');
+		return res.status(401).json('Invalid token');
 	}
 
 	next();
@@ -41,7 +41,7 @@ app.get('/movie', (req, res) => {
 			movies = movies.filter((movie) =>
 				movie.genre.toLowerCase().includes(search)
 			);
-			return res.json(movies);
+			return res.status(200).json(movies);
 		}
 
 		if (country) {
@@ -49,17 +49,17 @@ app.get('/movie', (req, res) => {
 			movies = movies.filter((movie) =>
 				movie.country.toLowerCase().includes(search)
 			);
-			return res.json(movies);
+			return res.status(200).json(movies);
 		}
 
 		if (avg_vote) {
 			let search = parseInt(avg_vote);
 			movies = movies.filter((movie) => Number(movie.avg_vote) >= search);
-			return res.json(movies);
+			return res.status(200).json(movies);
 		}
 	}
 
-	res.json(movies);
+	res.status(200).json(movies);
 });
 
 app.listen(5000, () => {
