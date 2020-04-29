@@ -41,7 +41,6 @@ app.get('/movie', (req, res) => {
 			movies = movies.filter((movie) =>
 				movie.genre.toLowerCase().includes(search)
 			);
-			return res.status(200).json(movies);
 		}
 
 		if (country) {
@@ -49,13 +48,11 @@ app.get('/movie', (req, res) => {
 			movies = movies.filter((movie) =>
 				movie.country.toLowerCase().includes(search)
 			);
-			return res.status(200).json(movies);
 		}
 
 		if (avg_vote) {
 			let search = parseInt(avg_vote);
 			movies = movies.filter((movie) => Number(movie.avg_vote) >= search);
-			return res.status(200).json(movies);
 		}
 	}
 
